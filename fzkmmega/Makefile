@@ -1,4 +1,4 @@
-all: hello test benchmark width color bgcolor palette
+all: hello test benchmark width color bgcolor palette put get
 
 hello: hello.rel
 	/opt/fcc/bin/fcc -O2 -mz80 hello.rel -o hello
@@ -34,6 +34,16 @@ palette: picinterface.rel palette.rel
 	/opt/fcc/bin/fcc -O2 -mz80 palette.rel picinterface.rel -o palette
 palette.rel: palette.c
 	/opt/fcc/bin/fcc -O2 -mz80 -c palette.c
+
+put: picinterface.rel put.rel
+	/opt/fcc/bin/fcc -O2 -mz80 put.rel picinterface.rel -o put
+put.rel: put.c
+	/opt/fcc/bin/fcc -O2 -mz80 -c put.c
+
+get: picinterface.rel get.rel
+	/opt/fcc/bin/fcc -O2 -mz80 get.rel picinterface.rel -o get
+get.rel: get.c
+	/opt/fcc/bin/fcc -O2 -mz80 -c get.c
 
 picinterface.rel: picinterface.c picinterface.h
 	/opt/fcc/bin/fcc -O2 -mz80 -c picinterface.c
