@@ -1,25 +1,42 @@
-all: hello test benchmark width
+all: hello test benchmark width color bgcolor palette
 
-hello: hello.c
-	/opt/fcc/bin/fcc -O2 -mz80 -c hello.c
+hello: hello.rel
 	/opt/fcc/bin/fcc -O2 -mz80 hello.rel -o hello
+hello.rel: hello.c
+	/opt/fcc/bin/fcc -O2 -mz80 -c hello.c
 
-test: test.c
-	/opt/fcc/bin/fcc -O2 -mz80 -c test.c
+test: test.rel
 	/opt/fcc/bin/fcc -O2 -mz80 test.rel -o test
+test.rel: test.c
+	/opt/fcc/bin/fcc -O2 -mz80 -c test.c
 
-benchmark: benchmark.c
-	/opt/fcc/bin/fcc -O2 -mz80 -c benchmark.c
+benchmark: benchmark.rel
 	/opt/fcc/bin/fcc -O2 -mz80 benchmark.rel -o benchmark
+benchmark.rel: benchmark.c
+	/opt/fcc/bin/fcc -O2 -mz80 -c benchmark.c
 
 width: picinterface.rel width.rel
 	/opt/fcc/bin/fcc -O2 -mz80 width.rel picinterface.rel -o width
+width.rel: width.c
+	/opt/fcc/bin/fcc -O2 -mz80 -c width.c
+
+color: picinterface.rel color.rel
+	/opt/fcc/bin/fcc -O2 -mz80 color.rel picinterface.rel -o color
+color.rel: color.c
+	/opt/fcc/bin/fcc -O2 -mz80 -c color.c
+
+bgcolor: picinterface.rel bgcolor.rel
+	/opt/fcc/bin/fcc -O2 -mz80 bgcolor.rel picinterface.rel -o bgcolor
+bgcolor.rel: bgcolor.c
+	/opt/fcc/bin/fcc -O2 -mz80 -c bgcolor.c
+
+palette: picinterface.rel palette.rel
+	/opt/fcc/bin/fcc -O2 -mz80 palette.rel picinterface.rel -o palette
+palette.rel: palette.c
+	/opt/fcc/bin/fcc -O2 -mz80 -c palette.c
 
 picinterface.rel: picinterface.c picinterface.h
 	/opt/fcc/bin/fcc -O2 -mz80 -c picinterface.c
-
-width.rel: width.c
-	/opt/fcc/bin/fcc -O2 -mz80 -c width.c
 
 clean:
 	rm -f *.rel
@@ -27,8 +44,4 @@ clean:
 	rm -f *.lk
 	rm -f *.noi
 	rm -f *.sym
-	rm -f test
-	rm -f hello
-	rm -f benchmark
-	rm -f width
 
