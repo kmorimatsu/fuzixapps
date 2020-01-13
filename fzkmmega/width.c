@@ -4,8 +4,8 @@
 
 int main(int argc, char* argv[]) {
 	char mode;
-	if (argc) {
-		switch(strtol(argv[0],0,10)){
+	if (1<argc) {
+		switch(strtol(argv[1],0,10)){
 			case 30:
 				mode=0;
 				break;
@@ -28,11 +28,14 @@ int main(int argc, char* argv[]) {
 				mode=-1;
 				break;
 		}
-	} else mode=-1;
-	if (mode<0) {
-		fprintf(stderr, "Valid width: 30,36,40,48,64,80\n");
+	} else {
+		mode=-1;
+	}
+	if (0<=mode && mode<=5) {
+		set_videomode(mode);
+		return 0;
+	} else {
+		fprintf(stderr,"Valid width: 30,36,40,48,64,80\n");
 		return -1;
 	}
-	set_videomode(mode);
-	return 0;
 }
