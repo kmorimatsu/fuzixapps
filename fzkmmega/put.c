@@ -3,15 +3,13 @@
 #include "picinterface.h"
 
 char g_buff[512];
-FSFILE g_usbstream;
 
 int main(int argc, char* argv[]) {
 	FILE* stream;
-	FSFILE* usbstream;
 	int i;
 	// Check parameter
 	if (argc<2) {
-		fprintf(stderr,"Syntax: put filename\n");
+		fprintf(stderr,"Syntax: put filename [newfilename]\n");
 		return -1;
 	}
 	// Open file to read in Fuzix
@@ -21,19 +19,29 @@ int main(int argc, char* argv[]) {
 		return -1;
 	}
 	// Open file to write in USB memory
-	usbstream=FSfopen(argv[1],"w",&g_usbstream);
-	if (!usbstream) {
+	if (argc>2) {
+		i=FSfopen(argv[2],"w");
+	} else {
+		i=FSfopen(argv[1],"w");
+	}
+	if (!i) {
+		fclose(stream);
 		fprintf(stderr,"File cannot be exported: %s\n",argv[1]);
 		return -1;
 	}
 	// Copy file
+	fprintf(stderr,"File is beeing exported: %s",argv[1]);
+	if (argc>2) fprintf(stderr," as %s",argv[2]);
 	while(!feof(stream)){
 		i=fread(g_buff,1,512,stream);
-		FSfwrite(g_buff,1,i,usbstream);
+		if (FSfwrite(g_buff,1,i)!=i) {
+			fclose(stream);
+			fprintf(stderr," error.\n");
+			return -1;
+		}
 	}
 	// All done
 	fclose(stream);
-	FSfclose(usbstream);
-	fprintf(stderr,"File exported: %s\n",argv[1]);
+	fprintf(stderr," done.\n");
 	return 0;
 }

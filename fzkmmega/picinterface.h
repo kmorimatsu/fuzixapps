@@ -9,33 +9,6 @@
 #define SEEK_CUR 1
 #define SEEK_END 2
 
-typedef struct
-{
-    unsigned    write :1;           // Indicates a file was opened in a mode that allows writes
-    unsigned    read :1;            // Indicates a file was opened in a mode that allows reads
-    unsigned    FileWriteEOF :1;    // Indicates the current position in a file is at the end of the file
-}FILEFLAGS;
-
-typedef struct
-{
-    uint32_t        dsk;            // Pointer to a DISK structure (valid only in PIC region)
-    uint32_t        cluster;        // The first cluster of the file
-    uint32_t        ccls;           // The current cluster of the file
-    uint16_t        sec;            // The current sector in the current cluster of the file
-    uint16_t        pos;            // The position in the current sector
-    uint32_t        seek;           // The absolute position in the file
-    uint32_t        size;           // The size of the file
-    FILEFLAGS       flags;          // A structure containing file flags
-    uint16_t        time;           // The file's last update time
-    uint16_t        date;           // The file's last update date
-    int8_t          name[11];       // The short name of the file
-    uint16_t        entry;          // The position of the file's directory entry in it's directory
-    uint16_t        chk;            // File structure checksum
-    uint16_t        attributes;     // The file attributes
-    uint32_t        dirclus;        // The base cluster of the file's directory
-    uint32_t        dirccls;        // The current cluster of the file's directory
-} FSFILE;
-
 /*
 	Prototypings follow
 */
@@ -46,12 +19,14 @@ void set_bgcolor(uint8_t b,uint8_t r,uint8_t g);
 void set_videomode(uint8_t m);
 void setcursor(uint8_t x,uint8_t y);
 void setcursorcolor(uint8_t c);
-FSFILE* FSfopen(const int8_t * fileName, const int8_t *mode, FSFILE* stream);
-int8_t FSfclose(FSFILE *fo);
-int8_t FSfseek(FSFILE *stream, int32_t offset, uint8_t whence);
-int8_t FSfeof( FSFILE * stream );
-uint16_t FSfwrite(const void *data_to_write, uint16_t size, uint16_t n, FSFILE *stream);
-uint16_t FSfread(void *ptr, uint16_t size, uint16_t n, FSFILE *stream);
+int8_t FSfopen(const int8_t * fileName, const int8_t *mode); // Returns 0 if fail.
+int8_t FSfclose(void);                                       // Return 0 if sucess
+int8_t FSfseek(int32_t offset, uint8_t whence);              // Return 0 if sucess
+int8_t FSfeof(void);
+uint16_t FSfwrite(const void *data_to_write, uint16_t size, uint16_t n);
+uint16_t FSfread(void *ptr, uint16_t size, uint16_t n);
+uint32_t FSftell(void);
+uint32_t FSfsize(void);
 
 /*
 	Z80 I/O handling variables follow
@@ -87,3 +62,5 @@ __sfr __banked __at 0x2248 PICINTERFACE_FSFSEEK;
 __sfr __banked __at 0x2348 PICINTERFACE_FSFEOF;
 __sfr __banked __at 0x2448 PICINTERFACE_FSFWRITE;
 __sfr __banked __at 0x2548 PICINTERFACE_FSFREAD;
+__sfr __banked __at 0x2648 PICINTERFACE_FSFTELL;
+__sfr __banked __at 0x2648 PICINTERFACE_FSFSIZE;

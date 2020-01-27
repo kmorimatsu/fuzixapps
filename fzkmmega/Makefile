@@ -55,3 +55,23 @@ clean:
 	rm -f *.noi
 	rm -f *.sym
 
+drive: hello.rel test.rel benchmark.rel width.rel color.rel bgcolor.rel palette.rel put.rel get.rel
+
+	./ucp fuziximg.ide:1049600 "cd /root ; get hello"
+	./ucp fuziximg.ide:1049600 "cd /root ; chmod 755 hello"
+	./ucp fuziximg.ide:1049600 "cd /root ; get test"
+	./ucp fuziximg.ide:1049600 "cd /root ; chmod 755 test"
+	./ucp fuziximg.ide:1049600 "cd /bin ; get benchmark"
+	./ucp fuziximg.ide:1049600 "cd /bin ; chmod 755 benchmark"
+	./ucp fuziximg.ide:1049600 "cd /bin ; get width"
+	./ucp fuziximg.ide:1049600 "cd /bin ; chmod 755 width"
+	./ucp fuziximg.ide:1049600 "cd /bin ; get color"
+	./ucp fuziximg.ide:1049600 "cd /bin ; chmod 755 color"
+	./ucp fuziximg.ide:1049600 "cd /bin ; get bgcolor"
+	./ucp fuziximg.ide:1049600 "cd /bin ; chmod 755 bgcolor"
+	./ucp fuziximg.ide:1049600 "cd /bin ; get palette"
+	./ucp fuziximg.ide:1049600 "cd /bin ; chmod 755 palette"
+	./ucp fuziximg.ide:1049600 "cd /bin ; get put"
+	./ucp fuziximg.ide:1049600 "cd /bin ; chmod 755 put"
+	./ucp fuziximg.ide:1049600 "cd /bin ; get get"
+	./ucp fuziximg.ide:1049600 "cd /bin ; chmod 755 get"
